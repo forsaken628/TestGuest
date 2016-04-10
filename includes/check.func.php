@@ -300,5 +300,3 @@ function _check_photo_url($_string) {
 	}
 	return $_string;
 }
-
-?>

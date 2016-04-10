@@ -23,7 +23,7 @@ if (!defined('IN_TG')) {
 function _connect() {
 	//global 表示全局变量的意思，意图是将此变量在函数外部也能访问
 	global $_conn;
-	if (!$_conn = @mysqli_connect(DB_HOST,DB_USER,DB_PWD)) {
+	if (!$_conn = mysqli_connect(DB_HOST,DB_USER,DB_PWD)) {
 		exit('数据库连接失败');
 	}
 }

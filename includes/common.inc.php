@@ -34,12 +34,7 @@ require ROOT_PATH.'includes/mysql.func.php';
 //执行耗时
 define('START_TIME',_runtime());
 //$GLOBALS['start_time'] = _runtime();
-
-//数据库连接
-define('DB_HOST','localhost');
-define('DB_USER','root');
-define('DB_PWD','3141592653');
-define('DB_NAME','testguest');
+require_once 'mysql.php';
 
 //初始化数据库
 _connect();   //连接MYSQL数据库

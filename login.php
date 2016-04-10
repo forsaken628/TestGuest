@@ -4,14 +4,14 @@ define('IN_JS', 'login');
 include_once 'includes/common.inc.php';
 include_once 'includes/login.func.php';
 
-
+session_start();
 if (isset($_GET['action']) && $_GET['action'] == 'login') {
+    _check_code($_SESSION['code'], $_POST['code']);
     $username = _check_username($_POST['username'], 2, 20);
     $password = _check_password($_POST['password'], 6);
     $time = _check_time($_POST['time']);
     $sql = "SELECT * FROM tg_user WHERE tg_username='{$username}' AND tg_password='{$password}';";
     $row = _fetch_array($sql);
-    var_dump($row);
     if (!is_null($row)) {
         $uniqid = _sha1_uniqid();
         _setcookies($username, $uniqid, $time);
