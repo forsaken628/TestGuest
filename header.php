@@ -13,14 +13,16 @@
         <li><a href="index.php">首页</a></li>
         <?php
         if (isset($_COOKIE['username'])) {
-            echo '<li><a href="member.php">' . $_COOKIE['username'] . '·个人中心</a> ' . $GLOBALS['message'] . '</li>';
-            echo "\n";
+            echo '<li><a href="member.php">' . $_COOKIE['username'] . '·个人中心</a> ';
+            if ($GLOBALS['message'] == 0) {
+                echo '<strong class="noread" ><a href = "member_message.php" > (0)</a ></strong >';
+            } else{
+                echo '<strong class="read" ><a href = "member_message.php" > ';
+                echo "({$GLOBALS['message']})</a ></strong >";
+            }
         } else {
             echo '<li><a href="register.php">注册</a></li>';
-            echo "\n";
-            echo "\t\t";
             echo '<li><a href="login.php">登录</a></li>';
-            echo "\n";
         }
         ?>
         <li><a href="blog.php">博友</a></li>

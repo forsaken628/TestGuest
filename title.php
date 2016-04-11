@@ -16,5 +16,6 @@
     <link rel="shortcut icon" href="favicon.ico"/>
     <link rel="stylesheet" type="text/css" href="styles/1/basic.css"/>
     <link rel="stylesheet" type="text/css" href="styles/1/<?php echo IN_TG ?>.css"/>
+    <script type="text/javascript" src="js/skin.js"></script>
     <script type="text/javascript" src="js/<?php echo IN_JS ?>.js"></script>
 </head>

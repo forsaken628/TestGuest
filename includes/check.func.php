@@ -23,8 +23,8 @@ if (!function_exists('_mysql_string')) {
 
 /**
  * _check_uniqid
- * @param unknown_type $_first_uniqid
- * @param unknown_type $_end_uniqid
+ * @param mixed $_first_uniqid
+ * @param mixed $_end_uniqid
  */
 
 function _check_uniqid($_first_uniqid,$_end_uniqid) {

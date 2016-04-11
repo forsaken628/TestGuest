@@ -7,7 +7,7 @@ require_once 'title.php';
 require_once 'header.php';
 
 _page("SELECT count(tg_id) FROM tg_article WHERE tg_reid=0", 10);//_page已优化
-$sql = "SELECT tg_type,tg_readcount,tg_commendcount,tg_id,tg_title FROM tg_article WHERE tg_reid=0 ORDER BY tg_readcount DESC LIMIT {$_pagenum},10";
+$sql = "SELECT d.tg_type,d.tg_readcount,d.tg_commendcount,d.tg_id,d.tg_title FROM tg_article b JOIN tg_article d WHERE d.tg_reid=0 AND d.tg_id=b.tg_reid ORDER BY d.tg_date DESC GROUP BY d.tg_id  LIMIT {$_pagenum},10";
 $result = _query($sql);
 ?>
     <div id="list">

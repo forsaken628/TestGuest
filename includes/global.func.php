@@ -417,8 +417,6 @@ function _check_code($_first_code, $_end_code)
     if ($_first_code != $_end_code) {
         _alert_back('验证码不正确!');
     }
-    else{
-    }
 }
 
 /**
