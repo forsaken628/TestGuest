@@ -22,16 +22,7 @@ if (!isset($_COOKIE['username'])) {
 //添加好友
 if ($_GET['action'] == 'add') {
     _check_code($_POST['code'], $_SESSION['code']);
-    if (!!$_rows = _fetch_array("SELECT 
-																tg_uniqid 
-												 FROM 
-																tg_user 
-											   WHERE 
-																tg_username='{$_COOKIE['username']}' 
-												   LIMIT 
-																1
-	")
-    ) {
+    if (!!$_rows = _fetch_array("SELECT tg_uniqid FROM tg_user WHERE tg_username='{$_COOKIE['username']}' LIMIT 1")) {
         _uniqid($_rows['tg_uniqid'], $_COOKIE['uniqid']);
     }
     include ROOT_PATH . 'includes/check.func.php';
@@ -45,24 +36,18 @@ if ($_GET['action'] == 'add') {
         _alert_close('请不要添加自己！');
     }
     //数据库验证好友是否已经添加
-    if (!!$_rows = _fetch_array("SELECT 
-																	tg_id 
-													  FROM 
-													  				tg_friend
-													WHERE
-																	(tg_touser='{$_clean['touser']}' AND tg_fromuser='{$_clean['fromuser']}')
-															OR
-																	(tg_touser='{$_clean['fromuser']}' AND tg_fromuser='{$_clean['touser']}')
-														LIMIT 
-																	1
-	")
+    if (!!$_rows = _fetch_array("SELECT tg_id FROM tg_friend WHERE
+  (tg_touser = '{$_clean['touser']}' AND tg_fromuser = '{$_clean['fromuser']}')
+  OR
+  (tg_touser = '{$_clean['fromuser']}' AND tg_fromuser = '{$_clean['touser']}')
+LIMIT 1")
     ) {
         _alert_close('你们已经是好友了！或者是未验证的好友！无需添加！');
     } else {
         //添加好友信息
         _query("INSERT INTO tg_friend (tg_touser,tg_fromuser,tg_content,tg_date)
-											 VALUES ('{$_clean['touser']}','{$_clean['fromuser']}','{$_clean['content']}',
-											 					NOW())");
+		VALUES ('{$_clean['touser']}','{$_clean['fromuser']}','{$_clean['content']}',
+		NOW())");
         if (_affected_rows() == 1) {
             _close();
             //_session_destroy();
@@ -76,7 +61,7 @@ if ($_GET['action'] == 'add') {
 }
 //获取数据
 if (isset($_GET['id'])) {
-    if (!!$_rows = _fetch_array("SELECT tg_username  FROM 	tg_user WHERE tg_id='{$_GET['id']}' 	LIMIT 	1")) {
+    if (!!$_rows = _fetch_array("SELECT tg_username  FROM tg_user WHERE tg_id='{$_GET['id']}' LIMIT 	1")) {
         $_html = array();
         $_html['touser'] = $_rows['tg_username'];
         $_html = _html($_html);
@@ -104,11 +89,11 @@ if (isset($_GET['id'])) {
 <div id="message">
     <h3>添加好友</h3>
     <form method="post" action="?action=add">
-        <input type="hidden" name="touser" value="小明"/>
+        <input type="hidden" name="touser" value="<?=$_html['touser']?>"/>
         <dl>
-            <dd><input type="text" readonly="readonly" value="TO:小明" class="text"/></dd>
+            <dd><input type="text" readonly="readonly" value="TO:<?=$_html['touser']?>" class="text"/></dd>
             <dd><textarea name="content">我非常想和你交朋友！</textarea></dd>
-            <dd>验 证 码：<input type="text" name="code" class="text yzm"/> <img src="./images/code.php.png" id="code"/>
+            <dd>验 证 码：<input type="text" name="code" class="text yzm"/> <img src="code.php" id="code"/>
                 <input type="submit" class="submit" value="添加好友"/></dd>
         </dl>
     </form>

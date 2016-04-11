@@ -5,7 +5,6 @@
  * Date: 2016/4/8
  * Time: 15:06
  */
-include_once 'includes/check.func.php';
 ?>
 <body>
 <div id="header">
