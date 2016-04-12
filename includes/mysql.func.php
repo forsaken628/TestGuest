@@ -104,7 +104,8 @@ function _free_result($_result) {
  */
 
 function _insert_id() {
-	return mysqli_insert_id();
+	global $_conn;
+	return mysqli_insert_id($_conn);
 }
 
 /**

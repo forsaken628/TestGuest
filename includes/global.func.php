@@ -110,8 +110,16 @@ function _login_state()
  * @param $_cookie_uniqid
  */
 
-function _uniqid($_mysql_uniqid, $_cookie_uniqid)
+function _uniqid($_mysql_uniqid = null, $_cookie_uniqid = null)
 {
+    if (is_null($_mysql_uniqid)) {
+        $_mysql_uniqid = _fetch_array("SELECT tg_uniqid FROM tg_user WHERE tg_username='{$_COOKIE['username']}'");
+        $_mysql_uniqid = $_mysql_uniqid['tg_uniqid'];
+    }
+    if (is_null($_cookie_uniqid)){
+        $_cookie_uniqid = $_COOKIE['uniqid'];
+    }
+
     if ($_mysql_uniqid != $_cookie_uniqid) {
         _alert_back('唯一标识符异常！');
     }
@@ -253,7 +261,7 @@ function _title($_string, $_strlen)
 /**
  * _html() 函数表示对字符串进行HTML过滤显示，如果是数组按数组的方式过滤，
  * 如果是单独的字符串，那么就按单独的字符串过滤
- * @param unknown_type $_string
+ * @param mixed $_string
  */
 
 
@@ -430,7 +438,7 @@ function _check_code($_first_code, $_end_code)
  */
 function _code($_width = 75, $_height = 25, $_rnd_code = 4, $_flag = false)
 {
-    $_nmsg='';
+    $_nmsg = '';
     //创建随机码
     for ($i = 0; $i < $_rnd_code; $i++) {
         $_nmsg .= dechex(mt_rand(0, 15));

@@ -5,6 +5,22 @@ define('SCRIPT', 'article');
 include_once 'includes/common.inc.php';
 require_once 'title.php';
 require_once 'header.php';
+session_start();
+
+if ($_GET['action'] == 'rearticle') {
+    _check_code($_SESSION['code'], $_POST['code']);
+    _uniqid();
+    $content = _mysql_string(_html($_POST['content']));
+    $sql = "INSERT INTO tg_article SET tg_reid={$_GET['id']}, tg_username='{$_COOKIE['username']}', tg_type={$_POST['type']},
+tg_title='{$_POST['title']}', tg_content='$content',tg_date=NOW()";
+    _query($sql);
+    _query("UPDATE tg_article SET tg_commendcount=tg_commendcount+1 WHERE tg_id={$_GET['id']}");
+}
+
+if(isset($_COOKIE['username']) && !isset($_SESSION['read'][$_GET['id']])){
+    $_SESSION['read'][$_GET['id']]=true;
+    _query("UPDATE tg_article SET tg_readcount=tg_readcount+1 WHERE tg_id={$_GET['id']}");
+}
 
 $id = intval($_GET['id']);
 $_id = 'id=' . $id . '&';
@@ -12,7 +28,7 @@ $sql = "SELECT a.tg_username,a.tg_type,a.tg_title,a.tg_content,a.tg_readcount,a.
 a.tg_last_modify_date,a.tg_date,b.tg_id,b.tg_email,b.tg_url,b.tg_sex,b.tg_face,b.tg_switch,b.tg_autograph
 FROM tg_article a JOIN tg_user b ON a.tg_username=b.tg_username WHERE a.tg_id={$id}";
 $row = _fetch_array($sql);
-if(!$row){
+if (!$row) {
     _alert_close('此帖不存在');
 }
 $tg_title = $row['tg_title']

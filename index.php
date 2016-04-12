@@ -7,7 +7,17 @@ require_once 'title.php';
 require_once 'header.php';
 
 _page("SELECT count(tg_id) FROM tg_article WHERE tg_reid=0", 10);//_page已优化
-$sql = "SELECT d.tg_type,d.tg_readcount,d.tg_commendcount,d.tg_id,d.tg_title FROM tg_article b JOIN tg_article d WHERE d.tg_reid=0 AND d.tg_id=b.tg_reid ORDER BY d.tg_date DESC GROUP BY d.tg_id  LIMIT {$_pagenum},10";
+$sql = "SELECT
+  d.tg_type,
+  d.tg_readcount,
+  d.tg_commendcount,
+  d.tg_id,
+  d.tg_title,
+  MAX(IFNULL(GREATEST(b.tg_last_modify_date,b.tg_date),GREATEST(d.tg_last_modify_date,d.tg_date))) date
+FROM tg_article d LEFT JOIN tg_article b ON b.tg_reid = d.tg_id
+WHERE d.tg_reid = 0
+GROUP BY d.tg_id
+ORDER BY date DESC LIMIT {$_pagenum},10";
 $result = _query($sql);
 ?>
     <div id="list">
@@ -16,7 +26,7 @@ $result = _query($sql);
         <ul class="article">
             <?php
             while ($row = _fetch_array_list($result)) {
-                $title = _title($row['tg_title'],30);
+                $title = _title($row['tg_title'], 30);
                 echo <<<a
 <li class="icon{$row['tg_type']}"><em>阅读数(<strong>{$row['tg_readcount']}</strong>) 评论数(<strong>{$row['tg_commendcount']}</strong>)</em> <a href="article.php?id={$row['tg_id']}">{$title}</a>
         </li>

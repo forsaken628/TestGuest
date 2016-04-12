@@ -8,13 +8,12 @@ require_once 'header.php';
 session_start();
 if ($_GET['action'] == 'post') {
     _check_code($_SESSION['code'], $_POST['code']);
+    _uniqid();
     $content = _mysql_string(_html($_POST['content']));
-    $sql = "INSERT INTO tg_article SET tg_reid=0, tg_username={$_COOKIE['username']}, tg_type={$_POST['type']},
-tg_title={$_POST['title']}, tg_content=$content,tg_date=NOW()";
+    $sql = "INSERT INTO tg_article SET tg_reid=0, tg_username='{$_COOKIE['username']}', tg_type={$_POST['type']},
+tg_title='{$_POST['title']}', tg_content='$content',tg_date=NOW()";
     _query($sql);
 }
-var_dump($_POST);
-
 ?>
     <script type="text/javascript" src="js/code.js">
         <
