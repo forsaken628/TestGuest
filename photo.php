@@ -25,7 +25,7 @@ if ($_GET['action'] == 'delete') {
         while ($row = _fetch_array_list($result)) {
             echo '<dl>';
             ?>
-            <dt><a href="photo_show.php?id=<?= $row['tg_id'] ?>"><img src="<?= $row['tg_face'] ?>" alt=""/></a></dt>
+            <dt><a href="photo_show.php?id=<?= $row['tg_id'] ?>"><img src="thumb.php?filename=<?= $row['tg_face'] ?>&wid=70" alt=""/></a></dt>
             <dd><a href="photo_show.php?id=<?= $row['tg_id'] ?>"><?= $row['tg_name'] ?> [<?= $row['tg_num'] ?>]
                     (<?= ($row['tg_type'] ? '私密' : '公开') ?>)</a></dd>
             <dd>[<a href="photo_modify_dir.php?id=<?= $row['tg_id'] ?>">修改</a>] [<a

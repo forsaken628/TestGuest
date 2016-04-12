@@ -116,7 +116,7 @@ function _uniqid($_mysql_uniqid = null, $_cookie_uniqid = null)
         $_mysql_uniqid = _fetch_array("SELECT tg_uniqid FROM tg_user WHERE tg_username='{$_COOKIE['username']}'");
         $_mysql_uniqid = $_mysql_uniqid['tg_uniqid'];
     }
-    if (is_null($_cookie_uniqid)){
+    if (is_null($_cookie_uniqid)) {
         $_cookie_uniqid = $_COOKIE['uniqid'];
     }
 
@@ -125,18 +125,17 @@ function _uniqid($_mysql_uniqid = null, $_cookie_uniqid = null)
     }
 }
 
-/**
- *生成缩略图
- * @param $_filename 文件路径
- * @param $_percent   缩放比例
- */
-function _thumb($_filename, $_percent)
+
+function _thumb($_filename, $_new_wid = 70, $_new_filename = null)
 {
     //生成png标头文件
-    header('Content-type: image/png');
+    if (is_null($_new_filename)) {
+        header('Content-type: image/png');
+    }
     $_n = explode('.', $_filename);
     //获取文件信息，长和高
     list($_width, $_height) = getimagesize($_filename);
+    $_percent = $_new_wid / max($_width, $_height);
     //生成缩微的长和高
     $_new_width = $_width * $_percent;
     $_new_height = $_height * $_percent;
@@ -156,7 +155,8 @@ function _thumb($_filename, $_percent)
     }
     //将原图采集后重新复制到新图上，就缩略了
     imagecopyresampled($_new_image, $_image, 0, 0, 0, 0, $_new_width, $_new_height, $_width, $_height);
-    imagepng($_new_image);
+    $_new_filename = fopen($_new_filename, 'w');
+    imagepng($_new_image, $_new_filename);
     imagedestroy($_new_image);
     imagedestroy($_image);
 }
