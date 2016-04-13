@@ -16,7 +16,7 @@ tg_title='{$_POST['title']}', tg_content='$content',tg_date=NOW()";
     _query($sql);
     _query("UPDATE tg_article SET tg_commendcount=tg_commendcount+1 WHERE tg_id={$_GET['id']}");
 }
-
+//阅读量
 if(isset($_COOKIE['username']) && !isset($_SESSION['read'][$_GET['id']])){
     $_SESSION['read'][$_GET['id']]=true;
     _query("UPDATE tg_article SET tg_readcount=tg_readcount+1 WHERE tg_id={$_GET['id']}");
@@ -67,7 +67,7 @@ $tg_title = $row['tg_title']
                     <?php if ($row['tg_username'] == $_COOKIE['username']) { ?>
                         [<a href="article_modify.php?id=<?= $id ?>">修改</a>]
                     <?php } ?>
-                    1#
+                    楼主
 				</span><?= $row['tg_username'] ?> | 发表于：<?= $row['tg_date'] ?>
             </div>
             <h3>主题：<?= $row['tg_title'] ?> <img src="images/icon<?= $row['tg_type'] ?>.gif" alt="icon"/>
@@ -97,7 +97,7 @@ FROM tg_article a JOIN tg_user b ON a.tg_username=b.tg_username
 WHERE a.tg_reid={$id}
 ORDER BY a.tg_id LIMIT $_pagenum,$_pagesize";
         $result = _query($sql);
-        $i = $_pagenum + 1;
+        $i = $_pagenum;
         while ($row = _fetch_array_list($result)) {
             $i++;
             ?>
@@ -119,7 +119,16 @@ ORDER BY a.tg_id LIMIT $_pagenum,$_pagesize";
                 </dl>
                 <div class="content">
                     <div class="user">
-                        <span><?= $i ?>#</span><?= $row['tg_username'] ?> | 发表于：<?= $row['tg_date'] ?>
+                        <span><?php switch ($i) {
+                                case 1:
+                                    echo '沙发';
+                                    break;
+                                case 2:
+                                    echo '地板';
+                                    break;
+                                default:
+                                    echo '#'.$i;
+                            } ?></span><?= $row['tg_username'] ?> | 发表于：<?= $row['tg_date'] ?>
                     </div>
                     <h3><?= $row['tg_title'] ?> <img src="images/icon<?= $row['tg_type'] ?>.gif" alt="icon"/>
                             <span>[<a href="#ree" name="re"

@@ -25,6 +25,6 @@ if (!defined('IN_TG')) {
 			<dd><a href="member_message.php">短信查阅</a></dd>
 			<dd><a href="member_friend.php">好友设置</a></dd>
 			<dd><a href="member_flower.php">查询花朵</a></dd>
-			<dd><a href="###">个人相册</a></dd>
+			<dd><a href="photo.php">个人相册</a></dd>
 		</dl>
 	</div>

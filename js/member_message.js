@@ -10,10 +10,7 @@ window.onload = function () {
 			}
 		}
 	};
-	fm.onsubmit = function () {
-		if (confirm('确定要删除这批数据吗？')) {
-			return true;
-		} 
-		return false;
-	};
+	//fm.onsubmit = function () {
+	//	return false;
+	//};
 };

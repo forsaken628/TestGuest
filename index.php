@@ -61,8 +61,12 @@ a;
         </dl>
     </div>
     <div id="pics">
-        <h2>最新图片 -- 网络游戏11</h2>
-        <a href="photo_detail.php?id=22"><img alt="网络游戏11" src="./photo/thumb.php.png"></a>
+        <?php
+        $img = _fetch_array("SELECT p.tg_id,p.tg_name,p.tg_content,p.tg_url
+FROM tg_photo p JOIN tg_dir d ON p.tg_sid=d.tg_id WHERE d.tg_type=0 ORDER BY p.tg_date DESC LIMIT 1");
+        ?>
+        <h2>最新图片 -- <?=$img['tg_name']?></h2>
+        <a href="photo_detail.php?id=<?=$img['tg_id']?>"><img alt="<?=$img['tg_content']?>" src="thumb.php?filename=<?= $img['tg_url']?>&wid=200"></a>
     </div>
 <?php
 require_once 'footer.php';

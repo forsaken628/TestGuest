@@ -6,6 +6,7 @@ include_once 'includes/common.inc.php';
 require_once 'title.php';
 require_once 'header.php';
 
+session_start();
 $_clean['id'] = intval($_GET['id']);
 _page("SELECT COUNT(tg_id) FROM tg_photo WHERE tg_sid={$_clean['id']}", 8);
 $row = _fetch_array("SELECT tg_name,tg_type,tg_password FROM tg_dir WHERE tg_id={$_clean['id']}");
@@ -16,12 +17,13 @@ $tg_password = $row['tg_password'];
     <div id="photo">
         <h2><?= $tg_name ?></h2>
         <?php
-        if ($tg_type && $tg_password != sha1($_POST['password'])) {?>
-            <form method="post" action="photo_show.php?id=<?php echo $_clean['id'].'&page='.$_page ?>">
+        if ($tg_type && $tg_password != sha1($_POST['password']) && !isset($_SESSION['photo_pwd'][$_clean['id']])) { ?>
+            <form method="post" action="photo_show.php?id=<?php echo $_clean['id'] . '&page=' . $_page ?>">
                 <p>请输入密码：<input type="password" name="password"/>
                     <input type="submit" value="确认"/></p>
             </form>
         <?php } else {
+            $_SESSION['photo_pwd'][$_clean['id']] = true;
             $result = _query("SELECT * FROM tg_photo WHERE tg_sid={$_clean['id']} LIMIT $_pagenum,$_pagesize");
             while ($row = _fetch_array_list($result)) {
                 ?>

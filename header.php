@@ -15,13 +15,13 @@
         if (isset($_COOKIE['username'])) {
             echo '<li><a href="member.php">' . $_COOKIE['username'] . '·个人中心</a> ';
             if ($GLOBALS['message'] == 0) {
-                echo '<strong class="noread" ><a href = "member_message.php" > (0)</a ></strong >';
+                echo '<a href = "member_message.php" ><strong class="noread" > (0)</strong ></a >';
             } else{
-                echo '<strong class="read" ><a href = "member_message.php" > ';
-                echo "({$GLOBALS['message']})</a ></strong >";
+                echo '<a href = "member_message.php" ><strong class="read" > ';
+                echo "({$GLOBALS['message']})</strong ></a >";
             }
         } else {
-            echo '<li><a href="register.php">注册</a></li>';
+            echo '<li><a href="register.php">注册</a></li> ';
             echo '<li><a href="login.php">登录</a></li>';
         }
         ?>
