@@ -16,15 +16,16 @@ define('IN_JS', 'message');
 define('SCRIPT', 'friend');
 //引入公共文件
 require dirname(__FILE__) . '/includes/common.inc.php';
+
 //判断是否登录了
 if (!isset($_COOKIE['username'])) {
     _alert_close('请先登录！');
 }
+_uniqid();
 //添加好友
 if ($_GET['action'] == 'add') {
     _check_code($_POST['code'], $_SESSION['code']);
-    _uniqid();
-    include ROOT_PATH . 'includes/check.func.php';
+    include 'includes/check.func.php';
     $_clean = array();
     $_clean['touser'] = $_POST['touser'];
     $_clean['fromuser'] = $_COOKIE['username'];
@@ -36,7 +37,7 @@ if ($_GET['action'] == 'add') {
     }
     //数据库验证好友是否已经添加
     if (!!$_rows = _fetch_array("SELECT tg_id FROM tg_friend WHERE
-    tg_touser = '{$_clean['touser']}','{$_clean['fromuser']}' AND tg_fromuser = '{$_clean['fromuser']}','{$_clean['touser']}'LIMIT 1")
+    tg_touser IN ('{$_clean['touser']}','{$_clean['fromuser']}') AND tg_fromuser IN ('{$_clean['fromuser']}','{$_clean['touser']}') LIMIT 1")
     ) {
         _alert_close('你们已经是好友了！或者是未验证的好友！无需添加！');
     } else {

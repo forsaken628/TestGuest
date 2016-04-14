@@ -10,17 +10,27 @@
  */
 session_start();
 //定义个常量，用来授权调用includes里面的文件
-define('IN_TG', 'friend');
+define('IN_TG', 'message');
 //定义个常量，用来指定本页的内容
 define('IN_JS', 'message');
-define('SCRIPT', 'friend');
+define('SCRIPT', 'message');
 //引入公共文件
 require dirname(__FILE__) . '/includes/common.inc.php';
 //判断是否登录了
 if (!isset($_COOKIE['username'])) {
     _alert_close('请先登录！');
 }
+_uniqid();
 
+if($_GET['action']=='send'){
+    $sql="INSERT INTO tg_message SET tg_touser='{$_POST['touser']}', tg_fromuser='{$_COOKIE['username']}',
+ tg_content='{$_POST['content']}', tg_date=NOW() ";
+    if(_query($sql)){
+        _alert_close('成功');
+    }else{
+        _alert_close('失败');
+    }
+}
 //获取数据
 if (isset($_GET['id'])) {
     if (!!$_rows = _fetch_array("SELECT tg_username  FROM tg_user WHERE tg_id='{$_GET['id']}' LIMIT 	1")) {
@@ -33,15 +43,7 @@ if (isset($_GET['id'])) {
 } else {
     _alert_close('非法操作！');
 }
-if($_GET['action']=='send'){
-    $sql="INSERT INTO tg_message SET tg_touser='{$_POST['touser']}', tg_fromuser='{$_COOKIE['username']}',
- tg_content='{$_POST['content']}', tg_date=NOW() ";
-    if(_query($sql)){
-        _alert_close('成功');
-    }else{
-        _alert_close('失败');
-    }
-}
+
 require 'title.php';
 ?>
 
