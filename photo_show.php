@@ -8,6 +8,14 @@ require_once 'header.php';
 
 session_start();
 $_clean['id'] = intval($_GET['id']);
+if($_GET['action']=='delete'){
+    var_dump($_GET);
+    $result=_fetch_array("SELECT tg_url FROM tg_photo WHERE tg_id={$_clean['id']}");
+    unlink($result['tg_url']);
+    _query("DELETE FROM tg_photo WHERE tg_id={$_clean['id']}");
+    _alert_back('已删除');
+}
+
 _page("SELECT COUNT(tg_id) FROM tg_photo WHERE tg_sid={$_clean['id']}", 8);
 $row = _fetch_array("SELECT tg_name,tg_type,tg_password FROM tg_dir WHERE tg_id={$_clean['id']}");
 $tg_name = $row['tg_name'];
@@ -36,14 +44,14 @@ $tg_password = $row['tg_password'];
                     <dd>阅(<strong><?= $row['tg_readcount'] ?></strong>)
                         评(<strong><?= $row['tg_commendcount'] ?></strong>)
                         上传者：<?= $row['tg_username'] ?></dd>
-                    <dd>[<a href="photo_show.php?action=delete&id=34">删除</a>]</dd>
+                    <dd>[<a href="photo_show.php?action=delete&id=<?= $row['tg_id'] ?>">删除</a>]</dd>
                 </dl>
             <?php } ?>
             <div id="page_num">
                 <?php $_id = "id={$_GET['id']}&";
                 _paging(1) ?>
             </div>
-            <p><a href="photo_add_img.php?id=4">上传图片</a></p>
+            <p><a href="photo_add_img.php?id=<?=$_clean['id']?>">上传图片</a></p>
         <?php } ?>
     </div>
 <?php

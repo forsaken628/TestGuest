@@ -19,9 +19,22 @@ require 'header.php';
 ?>
     <script type="text/javascript" src="js/skin.js"></script>
     <div id="member">
-        <?php require 'includes/member.inc.php' ?>
+        <?php require 'includes/member.inc.php';
+        $sql = "SELECT tg_id,tg_username,tg_sex,tg_face,tg_email,tg_url,tg_autograph,tg_switch,tg_qq FROM tg_user WHERE tg_username='{$_COOKIE['username']}'";
+        $row = _fetch_array($sql); ?>
         <div id="member_main">
-            <h2>好友设置中心</h2>
+            <h2>个人信息</h2>
+            <dl>
+                <dd>用 户 名：<?= $row['tg_username'] ?></dd>
+                <dd>性　　别：<?= $row['tg_sex']?></dd>
+                <dd>头　　像：<img alt="<?=$row['tg_username']?>" src="<?=$row['tg_face']?>">
+                <dd>电子邮件：<?= $row['tg_email'] ?></dd>
+                <dd>主　　页：<?= $row['tg_url'] ?></dd>
+                <dd>Q 　 　Q：<?= $row['tg_qq'] ?></dd>
+                <dd>个性签名：<?= ($row['tg_switch'] ? '启用' : '禁用') ?>
+                    <?=($row['tg_switch'] ? '<p>'._ubb($row['tg_autograph']).'</p>': '') ?>
+                </dd>
+            </dl>
         </div>
     </div>
 <?php

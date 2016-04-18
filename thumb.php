@@ -14,6 +14,9 @@ define('IN_TG', true);
 define('SCRIPT', 'thumb');
 //引入公共文件
 require dirname(__FILE__) . '/includes/common.inc.php';
+if(!is_dir('cache')){
+    mkdir('cache');
+}
 //缩略图
 if (isset($_GET['filename']) && isset($_GET['wid'])) {
     $path = pathinfo($_GET['filename']);

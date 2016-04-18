@@ -11,7 +11,7 @@ if (!isset($_COOKIE['username'])) {
 }
 _uniqid();
 if ($_GET['action'] == 'adddir') {
-    $_clean['name'] = $_POST['name'];
+    $_clean['name'] = _check_dir_name($_POST['name'],2,20);
     $_clean['content'] = $_POST['content'];
     $_clean = _html($_clean);
     $_clean = _mysql_string($_clean);

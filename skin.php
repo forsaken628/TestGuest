@@ -8,5 +8,6 @@
 define('IN_TG', 'skin');
 define('IN_JS', 'blog');
 define('SCRIPT', 'skin');
+setcookie('skin',$_GET['id']);
 include_once 'includes/common.inc.php';
 _location('','index.php');

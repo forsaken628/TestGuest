@@ -8,6 +8,7 @@ require_once 'header.php';
 session_start();
 if (isset($_GET['action']) && $_GET['action'] == 'register') {
     $uniqid = _sha1_uniqid();
+    _check_code($_SESSION['code'], $_POST['code']);
     $username = _check_username($_POST['username'], 2, 20);
     $password = _check_password($_POST['password'], $_POST['notpassword'], 6);
     $question = _check_question($_POST['question'], 2, 20);
@@ -17,7 +18,6 @@ if (isset($_GET['action']) && $_GET['action'] == 'register') {
     $email = _check_email($_POST['email'], 1, 20);
     $qq = _check_qq($_POST['qq']);
     $url = _check_url($_POST['url'], 30);
-    _check_code($_SESSION['code'], $_POST['code']);
     $reg_time = date("Y-m-d H:i:s");
     $last_time = $reg_time;
     $last_ip = $_SERVER['REMOTE_ADDR'];

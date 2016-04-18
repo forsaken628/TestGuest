@@ -137,8 +137,13 @@ function _thumb($_filename, $_new_wid = 70, $_new_filename = null)
     list($_width, $_height) = getimagesize($_filename);
     $_percent = $_new_wid / max($_width, $_height);
     //生成缩微的长和高
-    $_new_width = $_width * $_percent;
-    $_new_height = $_height * $_percent;
+    if ($_percent < 1) {
+        $_new_width = $_width * $_percent;
+        $_new_height = $_height * $_percent;
+    } else {
+        $_new_width = $_width;
+        $_new_height = $_height;
+    }
     //创建一个以0.3百分比新长度的画布
     $_new_image = imagecreatetruecolor($_new_width, $_new_height);
     //按照已有的图片创建一个画布
@@ -150,7 +155,7 @@ function _thumb($_filename, $_new_wid = 70, $_new_filename = null)
             $_image = imagecreatefrompng($_filename);
             break;
         case 'gif' :
-            $_image = imagecreatefrompng($_filename);
+            $_image = imagecreatefromgif($_filename);
             break;
     }
     //将原图采集后重新复制到新图上，就缩略了
